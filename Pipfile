@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[requires]
+python_version = "3.6"
+
+[packages]
+
+requests = "*"
+"beautifulsoup4" = "*"
+django = "==2.0b1"
+"dj-database-url" = "*"
+gevent = "*"
+gunicorn = "*"
+"psycopg2" = "*"
+
+
+[dev-packages]

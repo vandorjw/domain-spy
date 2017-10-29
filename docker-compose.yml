@@ -1,0 +1,31 @@
+version: '2'
+
+volumes:
+  postgres_data: {}
+  postgres_backup: {}
+
+services:
+  postgres:
+    build: ./compose/postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_backup:/backups
+    env_file: .env
+
+  django:
+    build: .
+    volumes:
+      - ./demo:/app/demo
+    user: django
+    depends_on:
+      - postgres
+    env_file: .env
+    ports:
+      - "5000:5000"
+
+  nginx:
+    build: ./compose/nginx
+    depends_on:
+      - django
+    ports:
+      - "0.0.0.0:80:80"
