@@ -21,11 +21,11 @@ END
 }
 
 until postgres_ready; do
-  >&2 echo "Postgres is unavailable - sleeping"
+  >&2 echo "Postgres is unavailable -- sleeping..."
   sleep 1
 done
 
->&2 echo "Postgres is up - continuing..."
+>&2 echo "Postgres is up -- continuing..."
 
 # -z tests for empty, if TRUE, $cmd is empty
 if [ -z $cmd ]; then

@@ -9,6 +9,10 @@ RUN echo 'django:django' | chpasswd
 # 1. install pipenv and create an entrypoint
 RUN pip install pipenv
 
+COPY Pipfile /app/Pipfile
+COPY Pipfile.lock /app/Pipfile.lock
+RUN cd /app && pipenv install
+
 COPY ./entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r//' /entrypoint.sh \
     && chmod a+x /entrypoint.sh \
@@ -21,10 +25,6 @@ RUN chown -R django:django /app
 USER django
 
 WORKDIR /app/demo
-
-COPY Pipfile /app/Pipfile
-COPY Pipfile.lock /app/Pipfile.lock
-RUN pipenv install
 
 EXPOSE 5000
 ENTRYPOINT ["/entrypoint.sh"]
