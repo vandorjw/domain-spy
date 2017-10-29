@@ -10,11 +10,17 @@ python_version = "3.6"
 
 requests = "*"
 "beautifulsoup4" = "*"
-django = "==2.0b1"
+Django = "*"
 "dj-database-url" = "*"
 gevent = "*"
 gunicorn = "*"
 "psycopg2" = "*"
-
+whitenoise = "*"
+djangorestframework = "*"
+Markdown = "*"
+"django-filter" = "*"
+"django-cors-headers" = "*"
+"django-environ" = "*"
+ipython = "*"
 
 [dev-packages]

@@ -8,8 +8,6 @@ if [ -z "$DATABASE_URL" ]; then
     export DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
 fi
 
-# django-admin collectstatic --no-input
-
 function postgres_ready(){
 python << END
 import sys
@@ -31,6 +29,7 @@ done
 
 # -z tests for empty, if TRUE, $cmd is empty
 if [ -z $cmd ]; then
+  python manage.py migrate --no-input
   gunicorn --config=gunicorn.py config.wsgi
 else
   >&2 echo "Running command passed (by the compose file)"
