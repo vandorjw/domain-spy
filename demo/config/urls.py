@@ -13,6 +13,7 @@ from django.views.defaults import permission_denied
 urlpatterns = [
     url(r'^$', lambda request: HttpResponse('Hello World!'), name='home'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/', include('domainspy.urls')),
 ]
 
 urlpatterns += [

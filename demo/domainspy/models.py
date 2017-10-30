@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import uuid
 from django.db import models
+from django.utils import timezone
 
 
 class Domain(models.Model):
@@ -19,6 +20,7 @@ class Domain(models.Model):
         null=True,
         related_name='children',
     )
+    fetched = models.DateField(auto_now=True)
     title = models.TextField(blank=True, default="")
     description = models.TextField(blank=True, default="")
     keywords = models.TextField(blank=True, default="")
