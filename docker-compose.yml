@@ -19,6 +19,7 @@ services:
     user: django
     depends_on:
       - postgres
+      - puppeteer
     env_file: .env
     ports:
       - "5000:5000"
@@ -29,3 +30,8 @@ services:
       - django
     ports:
       - "0.0.0.0:80:80"
+
+  puppeteer:
+    build: ./compose/puppeteer
+    ports:
+      - "0.0.0.0:3000:3000"
