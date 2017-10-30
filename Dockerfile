@@ -6,7 +6,6 @@ ENV PIPENV_VENV_IN_PROJECT=True
 RUN useradd -c 'django' --home-dir /app -s /bin/bash django
 RUN echo 'django:django' | chpasswd
 
-# 1. install pipenv and create an entrypoint
 RUN pip install pipenv
 
 COPY Pipfile /app/Pipfile
@@ -20,7 +19,6 @@ RUN sed -i 's/\r//' /entrypoint.sh \
 
 RUN mkdir -p /app/demo
 COPY ./demo /app/demo
-RUN chown -R django:django /app
 
 USER django
 
