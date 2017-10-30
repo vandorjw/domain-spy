@@ -31,7 +31,12 @@ done
 if [ -z $cmd ]; then
   python manage.py migrate --no-input
   python manage.py collectstatic --no-input
-  gunicorn --config=gunicorn.py config.wsgi
+  if [ "$AUTO_RELOAD" == "true" ]
+  then
+    gunicorn --config=gunicorn.py config.wsgi --reload
+  else
+    gunicorn --config=gunicorn.py config.wsgi
+  fi
 else
   >&2 echo "Running command passed (by the compose file)"
   if [ "$cmd" == "migrate" ]
