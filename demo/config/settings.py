@@ -105,7 +105,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Domain-Spy settings
-USE_PUPPETEER = env.bool('USE_PUPPETEER', default=False)
-PUPPETEER_PROXY = env('PUPPETEER_PROXY', default='http://localhost')
+USE_PUPPETEER = env.bool('USE_PUPPETEER', default=True)
+PUPPETEER_PROXY = env('PUPPETEER_PROXY', default='http://puppeteer:3000')
 PUPPETEER_USER = env('PUPPETEER_USER', default='user')
 PUPPETEER_PASSWORD = env('PUPPETEER_PASSWORD', default='password')
