@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import logging
 from django.shortcuts import get_object_or_404
 from .models import Domain
 from .models import DomainURI
@@ -18,6 +19,8 @@ from rest_framework.response import Response
 
 from .utils import scrape
 from .utils import HTMLParser
+
+logger = logging.getLogger(__name__)
 
 
 class DomainViewSet(viewsets.ModelViewSet):
@@ -64,4 +67,5 @@ def crawl(request):
         description = parser.get_meta_description()
         return Response({"title": title, "description": description}, status=status.HTTP_200_OK)
     except Exception as err:
+        logger.error(err)
         return Response({"error": 'Error crawling URI'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

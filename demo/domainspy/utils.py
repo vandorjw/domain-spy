@@ -4,11 +4,11 @@ from bs4 import BeautifulSoup
 import requests
 from django.conf import settings as dj_settings
 
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def scrape(url):
-    if django_settings.USE_PUPPETEER:
+    if dj_settings.USE_PUPPETEER:
         url = dj_settings.PUPPETEER_PROXY + "?url=" + url
         r = requests.get(url, auth=(dj_settings.PUPPETEER_USER, dj_settings.PUPPETEER_PASSWORD))
     else:
