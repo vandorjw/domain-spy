@@ -2,6 +2,7 @@
 from rest_framework import serializers
 
 from .models import Domain
+from .models import DomainURI
 from .models import DomainRank
 from .models import Technology
 from .models import DomainTechnology
@@ -15,14 +16,26 @@ class DomainSerializer(serializers.ModelSerializer):
             'uuid',
             'domain',
             'parent',
-            'fetched',
-            'title',
-            'description',
-            'keywords',
             'address',
             'phone_number',
             'administrator',
         )
+
+
+class DomainURISerializer(serializers.ModelSerializer):
+    uuid = serializers.UUIDField(label='ID', read_only=True)
+    class Meta:
+        model = Domain
+        fields = (
+            'uuid',
+            'domain',
+            'crawled',
+            'uri',
+            'title',
+            'description',
+            'keywords',
+        )
+
 
 
 class DomainRankSerializer(serializers.ModelSerializer):

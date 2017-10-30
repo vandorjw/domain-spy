@@ -20,16 +20,36 @@ class Domain(models.Model):
         null=True,
         related_name='children',
     )
-    fetched = models.DateField(auto_now=True)
-    title = models.TextField(blank=True, default="")
-    description = models.TextField(blank=True, default="")
-    keywords = models.TextField(blank=True, default="")
     address = models.TextField(blank=True, default="")
     phone_number = models.TextField(blank=True, default="")
     administrator = models.TextField(blank=True, default="")
 
     def __str__(self):
         return self.domain
+
+
+class DomainURI(models.Model):
+    uuid = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid1,
+        editable=False,
+    )
+    domain = models.ForeignKey(Domain)
+    uri = models.CharField(
+        max_length=2048,
+    )
+    crawled = models.DateField(auto_now=True)
+    title = models.TextField(blank=True, default="")
+    description = models.TextField(blank=True, default="")
+    keywords = models.TextField(blank=True, default="")
+
+    class Meta:
+        unique_together = (
+            ("domain", "uri"),
+        )
+
+    def __str__(self):
+        return "{}{}".format(self.domain,self.uri)
 
 
 class DomainRank(models.Model):

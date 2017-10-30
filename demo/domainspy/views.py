@@ -1,28 +1,67 @@
 # -*- coding: utf-8 -*-
+import json
 from django.shortcuts import get_object_or_404
 from .models import Domain
+from .models import DomainURI
 from .models import DomainRank
 from .models import Technology
 from .models import DomainTechnology
 from .serializers import DomainSerializer
+from .serializers import DomainURISerializer
 from .serializers import DomainRankSerializer
 from .serializers import TechnologySerializer
 from .serializers import DomainTechnologySerializer
+from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from .utils import scrape
+from .utils import HTMLParser
 
-class DomainViewSet(viewsets.ViewSet):
-    """
-    A simple ViewSet for listing or retrieving domain data.
-    """
-    def list(self, request):
-        queryset = Domain.objects.all()
-        serializer = DomainSerializer(queryset, many=True)
-        return Response(serializer.data)
 
-    def retrieve(self, request, pk=None):
-        queryset = Domain.objects.all()
-        domain = get_object_or_404(queryset, pk=pk)
-        serializer = DomainSerializer(domain)
-        return Response(serializer.data)
+class DomainViewSet(viewsets.ModelViewSet):
+    serializer_class = DomainSerializer
+    queryset = Domain.objects.all()
+
+
+class DomainURIViewSet(viewsets.ModelViewSet):
+    serializer_class = DomainURISerializer
+    queryset = DomainURI.objects.all()
+
+
+class DomainRankViewSet(viewsets.ModelViewSet):
+    serializer_class = DomainRankSerializer
+    queryset = DomainRank.objects.all()
+
+
+class TechnologyViewSet(viewsets.ModelViewSet):
+    serializer_class = TechnologySerializer
+    queryset = Technology.objects.all()
+
+
+class DomainTechnologyViewSet(viewsets.ModelViewSet):
+    serializer_class = DomainTechnologySerializer
+    queryset = DomainTechnology.objects.all()
+
+
+@api_view(['GET'], )
+def fetch_domain_details(request):
+    url = request.query_params.get('url')
+    crawl = request.query_params.get('crawl')
+    return Response({"url": url, "crawl": crawl}, status=status.HTTP_200_OK)
+
+
+@api_view(['POST',])
+def crawl(request):
+    try:
+        body = request.body.decode('utf-8')
+        payload = json.loads(body)
+        url = payload.get('url')
+        html_doc = scrape(url)
+        parser = HTMLParser(html_doc)
+        title = parser.get_meta_title()
+        description = parser.get_meta_description()
+        return Response({"title": title, "description": description}, status=status.HTTP_200_OK)
+    except Exception as err:
+        return Response({"error": 'Error crawling URI'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
