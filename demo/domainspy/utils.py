@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+import re
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 
@@ -54,3 +55,14 @@ class HTMLParser(object):
 
     def get_google_plus_handle(self):
         return ""
+
+    def get_alexa_global_rank(self):
+        traffic_rank_content = self.soup.find("section", {"id": "traffic-rank-content"})
+        page_ranks = traffic_rank_content.find_all("strong", {"class": "metrics-data"})
+        try:
+            global_rank = page_ranks[0].text
+            rank = re.sub('[^0-9]','', global_rank)
+            return int(rank)
+        except Exception as err:
+            logger.error(err)
+            return None

@@ -56,6 +56,7 @@ def fetch_domain_details(request):
     domain = url_to_domain(url)
     if domain:
         tasks.scrape.delay(url)
+        tasks.get_alexa_domain_rank.delay(domain)
         domain_obj, created = Domain.objects.get_or_create(domain=domain)
         serializer = DomainSerializer(domain_obj)
         return Response(serializer.data, status=status.HTTP_200_OK)

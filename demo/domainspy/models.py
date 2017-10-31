@@ -62,7 +62,9 @@ class DomainRank(models.Model):
     date = models.DateField(
         auto_now_add=True,
     )
-    rank = models.PositiveIntegerField()
+    rank = models.PositiveIntegerField(
+        default=0,
+    )
 
     class Meta:
         unique_together = (
