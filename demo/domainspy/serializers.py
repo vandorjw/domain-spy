@@ -25,7 +25,7 @@ class DomainSerializer(serializers.ModelSerializer):
 class DomainURISerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField(label='ID', read_only=True)
     class Meta:
-        model = Domain
+        model = DomainURI
         fields = (
             'uuid',
             'domain',

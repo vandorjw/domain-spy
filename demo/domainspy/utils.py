@@ -1,24 +1,21 @@
 # -*- coding: utf-8 -*-
 import logging
+from urllib.parse import urlparse
 from bs4 import BeautifulSoup
-import requests
-from django.conf import settings as dj_settings
 
 logger = logging.getLogger(__name__)
 
 
-def scrape(url):
-    if dj_settings.USE_PUPPETEER:
-        url = dj_settings.PUPPETEER_PROXY + "?url=" + url
-        r = requests.get(url, auth=(dj_settings.PUPPETEER_USER, dj_settings.PUPPETEER_PASSWORD))
-    else:
-        r = requests.get(url)
+def url_to_domain(url):
+    parsed_uri = urlparse(url)
+    domain = '{uri.netloc}'.format(uri=parsed_uri)
+    return domain
 
-    if r.status_code == 200:
-        return r.text
-    else:
-        logging.debug(r.status_code)
-        return ""
+
+def url_to_path(url):
+    parsed_uri = urlparse(url)
+    path = '{uri.path}'.format(uri=parsed_uri)
+    return path
 
 
 class HTMLParser(object):

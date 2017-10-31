@@ -10,17 +10,18 @@ python_version = "3.6"
 
 requests = "*"
 "beautifulsoup4" = "*"
-Django = "*"
+django = "*"
 "dj-database-url" = "*"
 gevent = "*"
 gunicorn = "*"
 "psycopg2" = "*"
 whitenoise = "*"
 djangorestframework = "*"
-Markdown = "*"
+markdown = "*"
 "django-filter" = "*"
 "django-cors-headers" = "*"
 "django-environ" = "*"
 ipython = "*"
+celery = {extras = ["redis"]}
 
 [dev-packages]

@@ -13,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = env('DJANGO_SECRET_KEY', default=str(uuid.uuid4()))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DJANGO_DEBUG', default=False)
+DEBUG = env.bool('DJANGO_DEBUG', default=True)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default="*")
 
@@ -109,3 +109,11 @@ USE_PUPPETEER = env.bool('USE_PUPPETEER', default=True)
 PUPPETEER_PROXY = env('PUPPETEER_PROXY', default='http://puppeteer:3000')
 PUPPETEER_USER = env('PUPPETEER_USER', default='user')
 PUPPETEER_PASSWORD = env('PUPPETEER_PASSWORD', default='password')
+
+
+CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='redis://redis:6379')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND', default='redis://redis:6379')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
