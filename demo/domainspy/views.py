@@ -59,6 +59,10 @@ def fetch_domain_details(request):
         domain_obj, created = Domain.objects.get_or_create(domain=domain)
         serializer = DomainSerializer(domain_obj)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        data = {"error": "{} does not contain a valid domain.".format(url)}
+        return Response(data, status=status.HTTP_200_OK)
+
 
 
 @api_view(['POST',])
