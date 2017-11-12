@@ -2,6 +2,8 @@
 import logging
 import re
 from urllib.parse import urlparse
+import xml.etree.ElementTree as ET
+import requests
 from bs4 import BeautifulSoup
 
 logger = logging.getLogger(__name__)
@@ -17,6 +19,17 @@ def url_to_path(url):
     parsed_uri = urlparse(url)
     path = '{uri.path}'.format(uri=parsed_uri)
     return path
+
+
+def get_alexa_rank(domain):
+    url = "https://data.alexa.com/data?cli=10&dat=snbamz&url=" + domain
+    r = requests.get(url)
+    if r.status_code == 200:
+        tree = ET.fromstring(r.content)
+        sd1, sd2 = tree.findall('SD')
+        popularity = sd2.find('POPULARITY')
+        rank = popularity.get('TEXT')
+        return int(rank)
 
 
 class HTMLParser(object):
